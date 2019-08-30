@@ -3,63 +3,55 @@ import java.util.List;
 
 /**
  * 给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
- *
- *         示例 1：
- *
- *         输入: "babad"
- *         输出: "bab"
- *         注意: "aba" 也是一个有效答案。
- *         示例 2：
- *
- *         输入: "cbbd"
- *         输出: "bb"
- *
- *         来源：力扣（LeetCode）
- *         链接：https://leetcode-cn.com/problems/longest-palindromic-substring
- *         著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+ * <p>
+ * 示例 1：
+ * <p>
+ * 输入: "babad"
+ * 输出: "bab"
+ * 注意: "aba" 也是一个有效答案。
+ * 示例 2：
+ * <p>
+ * 输入: "cbbd"
+ * 输出: "bb"
+ * <p>
+ * 来源：力扣（LeetCode）
+ * 链接：https://leetcode-cn.com/problems/longest-palindromic-substring
+ * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  **/
 public class LongestPalindrome {
 
 
     public static void main(String[] args) {
-        String s = "asdfgfdsawerqweodsgfasdfasfd";
+//        String s = "asdfgfdsawerqweodsgfasdfasfd";
+//        String s = "aaaaaa";
+//        String s = "a";
+//        String s = "bb";
+        String s = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd";
         System.out.println(longestPalindrome(s));
     }
 
 
     private static String longestPalindrome(String s) {
-        if (s == null) {
-            return "";
-        }
-        char[] arrChar = s.toCharArray();
-        if (arrChar.length > 1000) {
-            System.out.println("invalid input string");
-            return "";
-        }
-        List<String> results = new ArrayList<>();
-        for (int i = 1; i < arrChar.length - 1; i++) {
-            String matchString = arrChar[i] + "";
-            int min = i - 1;
-            int max = i + 1;
-            while (min >= 0 && max <= 1000) {
-                if (arrChar[min] == arrChar[max]) {
-                    matchString = arrChar[min] + matchString + arrChar[max];
-                } else {
-                    break;
-                }
-                min--;
-                max++;
-            }
-            if (matchString.length() > 1) {
-                results.add(matchString);
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
             }
         }
-        String result = "";
-        for (String r : results) {
-            if (r.length() > result.length()) {
-                result = r;
-            }
+        return s.substring(start, end + 1);
+    }
+
+    private static int expandAroundCenter(String s, int left, int right) {
+        int L = left, R = right;
+        while (L >= 0 && R < s.length() && s.charAt(L) == s.charAt(R)) {
+            L--;
+            R++;
         }
-        return result;
+        return R - L - 1;
     }
 }
