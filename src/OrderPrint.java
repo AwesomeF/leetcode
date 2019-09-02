@@ -1,4 +1,5 @@
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Semaphore;
 
 /**
  * 我们提供了一个类：
@@ -39,6 +40,9 @@ import java.util.concurrent.CountDownLatch;
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
+/**
+ * CountDownLatch
+ */
 public class OrderPrint {
 
     private CountDownLatch countDownLatch1 = new CountDownLatch(1);
@@ -69,3 +73,83 @@ public class OrderPrint {
         printThird.run();
     }
 }
+
+/**
+ * Semaphore
+ */
+
+//public class OrderPrint {
+//
+//    private Semaphore twoS = new Semaphore(0);
+//    private Semaphore threeS = new Semaphore(0);
+//
+//    public OrderPrint() {
+//    }
+//
+//    public void first(Runnable printFirst) throws InterruptedException {
+//
+//        // printFirst.run() outputs "first". Do not change or remove this line.
+//        printFirst.run();
+//        twoS.release();
+//    }
+//
+//    public void second(Runnable printSecond) throws InterruptedException {
+//        twoS.acquire();
+//        // printSecond.run() outputs "second". Do not change or remove this line.
+//        printSecond.run();
+//        threeS.release();
+//    }
+//
+//    public void third(Runnable printThird) throws InterruptedException {
+//        threeS.acquire();
+//        // printThird.run() outputs "third". Do not change or remove this line.
+//        printThird.run();
+//    }
+//}
+
+/**
+ * synchronized
+ */
+
+//public class OrderPrint {
+//
+//    private boolean firstFinished;
+//    private boolean secondFinished;
+//    private final Object lock = new Object();
+//
+//    public OrderPrint() {
+//    }
+//
+//    public void first(Runnable printFirst) throws InterruptedException {
+//        synchronized (lock) {
+//            // printFirst.run() outputs "first". Do not change or remove this line.
+//            printFirst.run();
+//            firstFinished = true;
+//            lock.notifyAll();
+//        }
+//    }
+//
+//    public void second(Runnable printSecond) throws InterruptedException {
+//
+//        synchronized (lock) {
+//            while (!firstFinished) {
+//                lock.wait();
+//            }
+//            // printSecond.run() outputs "second". Do not change or remove this line.
+//            printSecond.run();
+//            secondFinished = true;
+//            lock.notifyAll();
+//        }
+//    }
+//
+//    public void third(Runnable printThird) throws InterruptedException {
+//        synchronized (lock) {
+//            while (!secondFinished) {
+//                lock.wait();
+//            }
+//            // printThird.run() outputs "third". Do not change or remove this line.
+//            printThird.run();
+//
+//        }
+//    }
+//}
