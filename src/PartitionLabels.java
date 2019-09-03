@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -26,15 +27,15 @@ import java.util.List;
 public class PartitionLabels {
 
     public static void main(String[] args) {
-//        String s = "ababcbacadefegdehijhklij";
-        String s = "ab";
+        String s = "ababcbacadefegdehijhklij";
+//        String s = "ab";
         List<Integer> result = getPartitionLabelLength(s);
         for (Integer i : result) {
             System.out.println(i);
         }
     }
 
-
+    /*
     private static List<Integer> getPartitionLabelLength(String s) {
         List<Integer> result = new ArrayList<>();
         if (s.length() == 1) {
@@ -77,6 +78,36 @@ public class PartitionLabels {
         }
         for (String s1 : mergeStringList) {
             result.add(s1.length());
+        }
+        return result;
+    }
+     */
+    private static List<Integer> getPartitionLabelLength(String S) {
+
+        // 记录每个字母最后一次在字符串中出现的位置
+        HashMap<Character, Integer> last = new HashMap<>();
+        for (int i = 0; i < S.length(); i++) {
+            last.put(S.charAt(i), i);
+        }
+
+        List<Integer> result = new ArrayList<>();
+        // preIndex表示上个区间的右端点
+        // maxIndex表示当前遍历的字符右端点
+        int preIndex = -1, maxIndex = 0;
+        for (int i = 0; i < S.length(); i++) {
+            int index = last.get(S.charAt(i));
+            // 如果有更大值，则更新区间的右端点为更大值
+            if (index > maxIndex) {
+                maxIndex = index;
+            }
+            // 如果当前位置i等于当前所遍历的字符最后出现位置的最大值
+            // 说明maxIndex即为区间的右端点
+            if (i == maxIndex) {
+                // 添加区间的长度
+                result.add(maxIndex - preIndex);
+                // 当前右端点变为上一区间右端点
+                preIndex = maxIndex;
+            }
         }
         return result;
     }
