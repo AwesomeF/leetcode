@@ -45,11 +45,38 @@
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 public class BtreeGameWinningMove {
-    private TreeNode firstPlayerNode = null;
-    private int leftChildrenNodeCount = 0;
-    private int rightChildrenNodeCount = 0;
+    private static TreeNode firstPlayerNode = null;
+    private static int leftChildrenNodeCount = 0;
+    private static int rightChildrenNodeCount = 0;
 
-    public boolean btreeGame(TreeNode root, int n, int x) {
+    public static void main(String[] args) {
+        TreeNode node = initTreeNode(11);
+        System.out.println(btreeGame(node, 11, 4));
+    }
+
+    private static TreeNode initTreeNode(int length) {
+        TreeNode[] nodeList = new TreeNode[length];
+        for (int i = 0; i < length; i++) {
+            nodeList[i] = new TreeNode(i + 1);
+        }
+        if (length == 1) {
+            return nodeList[0];
+        }
+        int parentNodeIndex = 0;
+        int currentNodeIndex = 1;
+
+        while (currentNodeIndex < length) {
+            if (currentNodeIndex % 2 == 1) {
+                nodeList[parentNodeIndex].left = nodeList[currentNodeIndex++];
+            } else {
+                nodeList[parentNodeIndex].right = nodeList[currentNodeIndex++];
+                parentNodeIndex++;
+            }
+        }
+        return nodeList[0];
+    }
+
+    private static boolean btreeGame(TreeNode root, int n, int x) {
         if (root == null) {
             return false;
         }
@@ -63,7 +90,7 @@ public class BtreeGameWinningMove {
 
     }
 
-    private void findTreeNode(TreeNode root, int x) {
+    private static void findTreeNode(TreeNode root, int x) {
         if (root == null) {
             return;
         }
@@ -75,7 +102,7 @@ public class BtreeGameWinningMove {
         findTreeNode(root.right, x);
     }
 
-    private void leftRecursionPreloaderTraversal(TreeNode root) {
+    private static void leftRecursionPreloaderTraversal(TreeNode root) {
         if (root != null) {
             leftChildrenNodeCount++;
             leftRecursionPreloaderTraversal(root.left);
@@ -83,7 +110,7 @@ public class BtreeGameWinningMove {
         }
     }
 
-    private void rightRecursionPreloaderTraversal(TreeNode root) {
+    private static void rightRecursionPreloaderTraversal(TreeNode root) {
         if (root != null) {
             rightChildrenNodeCount++;
             rightRecursionPreloaderTraversal(root.left);
@@ -91,7 +118,7 @@ public class BtreeGameWinningMove {
         }
     }
 
-    class TreeNode {
+    static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;
