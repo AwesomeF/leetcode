@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoolExprTest {
 
-    BoolExpr boolExpr = new BoolExpr();
+    private BoolExpr boolExpr = new BoolExpr();
 
     @Test
     void parseBoolExpr1() {

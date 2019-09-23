@@ -69,7 +69,7 @@ public class BoolExpr {
         return worker.pop() == 't';
     }
 
-    public Character blockExpr(Stack<Character> operStack, char oper) {
+    private Character blockExpr(Stack<Character> operStack, char oper) {
         if (oper == '!') {
             return operStack.pop() == 't' ? 'f' : 't';
         }
