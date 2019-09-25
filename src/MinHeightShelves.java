@@ -60,6 +60,18 @@ public class MinHeightShelves {
 //        totalHeight = totalHeight + currentHeight;
 //        return totalHeight;
 //    }
+
+    /**
+     * 遍历每一本书，把当前这本书作为书架最后一层的最后一本书，将这本书之前的书向后调整，看看是否可以减少之前的书架高度。状态转移方程为 dp[i] = min(dp[i] , dp[j - 1] + h)，其中 j 表示最后一层所能容下书籍的索引，h 表示最后一层最大高度。
+     *
+     * 作者：smoon1989
+     * 链接：https://leetcode-cn.com/problems/filling-bookcase-shelves/solution/dong-tai-gui-hua-python3-by-smoon1989/
+     * 来源：力扣（LeetCode）
+     * 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+     * @param books
+     * @param shelf_width
+     * @return
+     */
     public int minHeightShelves(int[][] books, int shelf_width) {
         int[] dp = new int[books.length + 1];
         Arrays.fill(dp, Integer.MAX_VALUE);
